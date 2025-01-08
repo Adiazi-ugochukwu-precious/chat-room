@@ -75,6 +75,7 @@ body {
     border: none;
 }
 
+/* Chat screen styles */
 .chat-screen .header {
     background: #111;
     height: 50px;
@@ -101,87 +102,51 @@ body {
 
 .chat-screen .messages {
     width: 100%;
-    height: calc(100% - 100px); /* Account for header and typebox */
+    height: calc(100% - 100px);
     background: #f5f5f5;
     overflow-y: auto;
 }
 
+.update {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    margin: 10px 0;
+}
+
 .message {
     display: flex;
-    align-items: center;
-    padding: 10px;
+    margin: 10px 0;
 }
 
-.message .profile-pic {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
+.my-message {
+    justify-content: flex-end;
 }
 
-.message .profile-placeholder {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px;
-    font-size: 20px;
-    color: #555;
+.other-message {
+    justify-content: flex-start;
 }
 
 .message .content {
-    max-width: 80%;
-    background: #fff;
-    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.05);
+    max-width: 70%;
     padding: 10px;
     border-radius: 5px;
+    background: #f1f1f1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.message .content .name {
-    font-size: 13px;
-    color: #555;
-    margin-bottom: 5px;
+.my-message .content {
+    background: #d1ffd1;
 }
 
-.message .content .text {
+.message .text {
     word-wrap: break-word;
+    font-size: 14px;
 }
 
-.message .content .timestamp {
-    font-size: 12px;
-    color: #888;
+.message .timestamp {
     text-align: right;
+    font-size: 12px;
+    color: #777;
     margin-top: 5px;
-}
-
-.chat-screen .typebox {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background: #fff;
-    border-top: 1px solid #ddd;
-}
-
-.chat-screen .typebox input {
-    flex: 1;
-    height: 40px;
-    font-size: 16px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.chat-screen .typebox button {
-    margin-left: 10px;
-    height: 40px;
-    padding: 0 20px;
-    background: #111;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
 }
