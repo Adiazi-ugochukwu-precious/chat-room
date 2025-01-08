@@ -158,31 +158,30 @@ body {
     margin-top: 5px;
 }
 
-.chat-screen .typebox {
+/* Styles for text area and send button */
+.typebox {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
     padding: 10px;
     background: #fff;
     border-top: 1px solid #ddd;
 }
 
-.chat-screen .typebox input {
+.typebox input {
     flex: 1;
-    height: 40px;
+    padding: 10px;
     font-size: 16px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    margin-right: 10px;
 }
 
-.chat-screen .typebox button {
-    margin-left: 10px;
-    height: 40px;
-    padding: 0 20px;
-    background: #111;
+.typebox button {
+    padding: 10px 20px;
+    background-color: #25d366;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 16px;
 }
