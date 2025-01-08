@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 io.on("connection", function (socket) {
     socket.on("newuser", function (data) {
         socket.broadcast.emit("update", `${data.username} joined the conversation`);
-        socket.profilePic = data.profilePic; // Store user's profile picture on the socket
+        socket.profilePic = data.profilePic;
     });
 
     socket.on("exituser", function (username) {

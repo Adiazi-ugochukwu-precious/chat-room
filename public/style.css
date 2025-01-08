@@ -101,15 +101,24 @@ body {
 
 .chat-screen .messages {
     width: 100%;
-    height: calc(100% - 100px); /* Account for header and typebox */
+    height: calc(100% - 100px);
     background: #f5f5f5;
     overflow-y: auto;
+    padding: 10px;
 }
 
 .message {
     display: flex;
     align-items: center;
-    padding: 10px;
+    margin: 10px 0;
+}
+
+.message.my-message {
+    justify-content: flex-end;
+}
+
+.message.other-message {
+    justify-content: flex-start;
 }
 
 .message .profile-pic {
@@ -133,7 +142,7 @@ body {
 }
 
 .message .content {
-    max-width: 80%;
+    max-width: 70%;
     background: #fff;
     box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.05);
     padding: 10px;
@@ -142,24 +151,33 @@ body {
 
 .message .content .name {
     font-size: 13px;
-    color: #555;
-    margin-bottom: 5px;
+    font-weight: bold;
+    color: #075e54;
 }
 
 .message .content .text {
-    word-wrap: break-word;
+    margin-top: 5px;
+    font-size: 14px;
 }
 
 .message .content .timestamp {
     font-size: 12px;
-    color: #888;
+    color: #777;
     text-align: right;
     margin-top: 5px;
+}
+.message.update{
+    text-align: center; 
+    margin-left: 200px;
+    font-size: 14px;
+    font-style: italic;
+    color: #777; /* Subtle color to distinguish it */
+    margin: 10px 0; /* Add some space above and below */
 }
 
 .chat-screen .typebox {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
     padding: 10px;
     background: #fff;
     border-top: 1px solid #ddd;
@@ -167,21 +185,19 @@ body {
 
 .chat-screen .typebox input {
     flex: 1;
-    height: 40px;
+    padding: 10px;
     font-size: 16px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    margin-right: 10px;
 }
 
 .chat-screen .typebox button {
-    margin-left: 10px;
-    height: 40px;
-    padding: 0 20px;
-    background: #111;
+    padding: 10px 20px;
+    background-color: #25d366;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 16px;
 }
