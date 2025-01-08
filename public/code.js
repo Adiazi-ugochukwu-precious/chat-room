@@ -2,14 +2,18 @@
     const app = document.querySelector(".app");
     const socket = io();
     let uname;
-    let profilePic;
+    let profilePic; // Store profile picture as Base64
 
-    app.querySelector("#join-user").addEventListener("click", function () {
-        let username = app.querySelector("#username").value;
-        let profileInput = app.querySelector("#profile-pic").files[0];
+    // Handle user joining the chatroom
+    app.querySelector(".join-screen #join-user").addEventListener("click", function () {
+        let username = app.querySelector(".join-screen #username").value;
+        let profileInput = app.querySelector(".join-screen #profile-pic").files[0];
 
-        if (!username) return;
+        if (username.length === 0) {
+            return;
+        }
 
+        // Convert profile picture to Base64 (if selected)
         if (profileInput) {
             const reader = new FileReader();
             reader.onload = function (e) {
@@ -18,7 +22,8 @@
             };
             reader.readAsDataURL(profileInput);
         } else {
-            joinChat(username, null);
+            profilePic = null; // No profile picture
+            joinChat(username, profilePic);
         }
     });
 
@@ -29,24 +34,23 @@
         app.querySelector(".chat-screen").classList.add("active");
     }
 
-    app.querySelector("#send-message").addEventListener("click", function () {
-        let message = app.querySelector("#message-input").value;
-        if (!message) return;
-
+    // Handle sending a message
+    app.querySelector(".chat-screen #send-message").addEventListener("click", function () {
+        let message = app.querySelector(".chat-screen #message-input").value;
+        if (message.length === 0) {
+            return;
+        }
         renderMessage("my", {
             username: uname,
             text: message,
             profilePic: profilePic,
-            timestamp: new Date().toLocaleTimeString(),
         });
-
         socket.emit("chat", {
             username: uname,
             text: message,
             profilePic: profilePic,
         });
-
-        app.querySelector("#message-input").value = "";
+        app.querySelector(".chat-screen #message-input").value = "";
     });
 
     app.querySelector("#exit-chat").addEventListener("click", function () {
@@ -56,12 +60,14 @@
         uname = null;
     });
 
+    // Listen for updates
     socket.on("update", function (updateMessage) {
-        renderMessage("update", updateMessage);
+        renderMessage("update", updateMessage); // Render updates as plain text
     });
 
+    // Listen for incoming chat messages
     socket.on("chat", function (message) {
-        renderMessage("other", message);
+        renderMessage("other", message); // Render other users' messages
     });
 
     function renderMessage(type, message) {
@@ -79,11 +85,13 @@
         } else if (type === "other") {
             el.classList.add("other-message");
             el.innerHTML = `
-                ${message.profilePic ? `<img src="${message.profilePic}" alt="Profile" class="profile-pic">` : ''}
-                <div class="content">
-                    <div class="name">${message.username}</div>
-                    <div class="text">${message.text}</div>
-                    <div class="timestamp">${message.timestamp}</div>
+                <div>
+                    ${profileHtml}
+                    <div class="content">
+                        <div class="name">${message.username}</div>
+                        <div class="text">${message.text}</div>
+                        ${timestampHtml}
+                    </div>
                 </div>`;
         } else if (type === "update") {
             el.classList.add("update");
