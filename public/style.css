@@ -129,6 +129,26 @@ body {
     justify-content: flex-start;
 }
 
+.message .profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message .profile-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    font-size: 20px;
+    color: #555;
+}
+
 .message .content {
     max-width: 80%;
     background: #fff;

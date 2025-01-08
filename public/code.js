@@ -13,7 +13,6 @@
             return;
         }
 
-        // Convert profile picture to Base64 (if selected)
         if (profileInput) {
             const reader = new FileReader();
             reader.onload = function (e) {
@@ -22,7 +21,7 @@
             };
             reader.readAsDataURL(profileInput);
         } else {
-            profilePic = null; // No profile picture
+            profilePic = null;
             joinChat(username, profilePic);
         }
     });
@@ -34,68 +33,64 @@
         app.querySelector(".chat-screen").classList.add("active");
     }
 
-    // Handle sending a message
     app.querySelector(".chat-screen #send-message").addEventListener("click", function () {
         let message = app.querySelector(".chat-screen #message-input").value;
-        if (message.length === 0) {
-            return;
-        }
+        if (message.length === 0) return;
+
         renderMessage("my", {
             username: uname,
             text: message,
             profilePic: profilePic,
+            timestamp: new Date().toLocaleTimeString(),
         });
+
         socket.emit("chat", {
             username: uname,
             text: message,
             profilePic: profilePic,
         });
+
         app.querySelector(".chat-screen #message-input").value = "";
     });
 
-    app.querySelector("#exit-chat").addEventListener("click", function () {
+    app.querySelector(".chat-screen #exit-chat").addEventListener("click", function () {
         socket.emit("exituser", uname);
         app.querySelector(".chat-screen").classList.remove("active");
         app.querySelector(".join-screen").classList.add("active");
         uname = null;
     });
 
-    // Listen for updates
     socket.on("update", function (updateMessage) {
-        renderMessage("update", updateMessage); // Render updates as plain text
+        renderMessage("update", updateMessage);
     });
 
-    // Listen for incoming chat messages
     socket.on("chat", function (message) {
-        renderMessage("other", message); // Render other users' messages
+        renderMessage("other", message);
     });
 
     function renderMessage(type, message) {
-        const messageContainer = app.querySelector(".messages");
-        const el = document.createElement("div");
-        el.classList.add("message");
+        let messageContainer = app.querySelector(".chat-screen .messages");
 
-        if (type === "my") {
-            el.classList.add("my-message");
-            el.innerHTML = `
+        let el = document.createElement("div");
+
+        if (type === "update") {
+            el.classList.add("message", "update");
+            el.innerText = message;
+        } else {
+            let profileHtml = message.profilePic
+                ? `<img src="${message.profilePic}" alt="Profile" class="profile-pic">`
+                : `<div class="profile-placeholder">👤</div>`;
+
+            let contentHtml = `
                 <div class="content">
+                    <div class="name">${message.username}</div>
                     <div class="text">${message.text}</div>
                     <div class="timestamp">${message.timestamp}</div>
-                </div>`;
-        } else if (type === "other") {
-            el.classList.add("other-message");
-            el.innerHTML = `
-                <div>
-                    ${profileHtml}
-                    <div class="content">
-                        <div class="name">${message.username}</div>
-                        <div class="text">${message.text}</div>
-                        ${timestampHtml}
-                    </div>
-                </div>`;
-        } else if (type === "update") {
-            el.classList.add("update");
-            el.innerText = message;
+                </div>
+            `;
+
+            el.classList.add("message", type === "my" ? "my-message" : "other-message");
+            el.innerHTML = profileHtml + contentHtml;
         }
 
         messageContainer.appendChild(el);
